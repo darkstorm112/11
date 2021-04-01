@@ -7,10 +7,9 @@ const errorHandler = require('./error-handle')
 const app = new Koa()
 
 app.useRoutes = useRoutes
-
 app.use(bodyParser())
-app.useRoutes()
 
+app.useRoutes()
 app.on('error', errorHandler)
 
 module.exports = app

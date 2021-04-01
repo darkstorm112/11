@@ -1,5 +1,4 @@
-const connection = require('../app/datebase')
-
+const connection = require('../app/database')
 
 class UserService {
 
@@ -15,6 +14,8 @@ class UserService {
   async create(user) {
     const { name, password } = user
     const statement = `INSERT INTO user (name, password) VALUES (?, ?);`
+    console.log(11)
+    console.log(user)
     const result = await connection.execute(statement,[name, password])
     
     return result[0]
@@ -22,3 +23,4 @@ class UserService {
 }
 
 module.exports = new UserService()
+

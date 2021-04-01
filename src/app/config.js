@@ -10,7 +10,7 @@ module.exports = {
 
   MYSQL_HOST,
   MYSQL_PORT,
-  MYSQL_DATEBASE,
+  MYSQL_DATABASE,
   MYSQL_USER,
   MYSQL_PASSWORD
 } = process.env

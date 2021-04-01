@@ -8,3 +8,5 @@ const userRouter = new Router({prefix: '/users'})
 userRouter.post('/', verifyUser, create)
 
 module.exports = userRouter
+
+
