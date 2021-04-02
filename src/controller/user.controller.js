@@ -10,6 +10,7 @@ class UserController {
     // 查询数据
     const result = await userService.create(user)
     console.log(result)
+    console.log('结束')
     
     //返回数据
     ctx.body = '恭喜你注册成功~'
