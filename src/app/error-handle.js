@@ -1,11 +1,8 @@
 const errorTypes = require('../constants/error-types')
 
-
 const errorHandle = (error, ctx) => {
   let status, message;
-  console.log(error.message)
-  console.log(errorTypes)
-  console.log(errorTypes.USER_ALREADY_EXISTS===error.message)
+  
   switch (error.message) {
     case errorTypes.NAME_OR_PASSWORD_IS_REQUIRED:
       status = 400 // Bad Request
@@ -22,6 +19,10 @@ const errorHandle = (error, ctx) => {
     case errorTypes.PASSWORD_IS_INCORRENT:
       status = 400 //参数错误
       message = '密码错误~'
+      break
+    case errorTypes.UNAUTHORIZATION:
+      status = 401 //无效的token
+      message = '无效的token~'
       break
     default:
       status = 404

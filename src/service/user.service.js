@@ -14,7 +14,6 @@ class UserService {
   async create(user) {
     const { name, password } = user
     const statement = `INSERT INTO user (name, password) VALUES (?, ?);`
-    console.log(11)
     console.log(user)
     const result = await connection.execute(statement,[name, password])
     
@@ -23,4 +22,3 @@ class UserService {
 }
 
 module.exports = new UserService()
-

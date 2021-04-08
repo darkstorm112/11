@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken')
+
 const errorTypes = require('../constants/error-types')
 const userService = require('../service/user.service')
 const md5password = require('../utils/password-handle')
+const { PUBLIC_KEY } = require('../app/config')
 
 
 const verifyLogin = async (ctx, next) => {
@@ -9,7 +12,7 @@ const verifyLogin = async (ctx, next) => {
   const { name, password } = ctx.request.body
 
   //1、判断账户密码是否为空
-  if (!nmae || !password) {
+  if (!name || !password) {
     const error = new Error(errorTypes.NAME_OR_PASSWORD_IS_REQUIRED)
     return ctx.app.emit('error', error, ctx)
   }
@@ -28,9 +31,33 @@ const verifyLogin = async (ctx, next) => {
     return ctx.app.emit('error', error, ctx)
   }
 
+  ctx.user = user
   await next()
 }
 
+const verifyAuth = async (ctx, next) => {
+  console.log('验证授权的middleware~')
+
+  try {
+    //获取 token
+    const authorization = ctx.headers.authorization
+    const token = authorization.replace('Bearer ', '')
+
+    //验证token
+    const result = jwt.verify(token, PUBLIC_KEY, {
+      algorithms: ['RS256']
+    })
+
+    ctx.user = result
+    await next()
+
+  } catch (err) {
+    const error = new Error(errorTypes.UNAUTHORIZATION)
+    ctx.app.emit('error', error, ctx)
+  }
+}
+
 module.exports = {
-  verifyLogin
+  verifyLogin,
+  verifyAuth
 }
