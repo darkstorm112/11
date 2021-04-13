@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const errorTypes = require('../constants/error-types')
 const userService = require('../service/user.service')
+const authService = require('../service/auth.service')
 const md5password = require('../utils/password-handle')
 const { PUBLIC_KEY } = require('../app/config')
 
@@ -58,6 +59,26 @@ const verifyAuth = async (ctx, next) => {
 }
 
 const verifyPermission = async (ctx, next) => {
+  console.log('验证权限的middleware~')
+
+  //1、获取参数 { commentId }
+  const [resourceKey] = Object.keys(ctx.params)
+  const tableName = resourceKey.replace('Id','')
+  const resourceId = ctx.params[resourceKey]
+
+  const { id } = ctx.user
+
+
+  // 2、查看是否拥有权限
+  try{
+    const isPermission = await authService.checkResource(tableName, resourceId, id)
+    if(isPermission){
+      
+    }
+  }catch(err){
+    console.log(err)
+  }
+
   next()
 }
 
