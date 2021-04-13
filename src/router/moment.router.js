@@ -1,15 +1,25 @@
 const Router = require('koa-router')
 const { 
-  verifyLogin, 
-  verifyAuth 
+  verifyAuth,
+  verifyPermission
 } = require('../middleware/auth.middleware')
 
 
-const { create } = require('../service/moment.service')
+const { 
+  create,
+  list,
+  detail,
+  update
+} = require('../controller/moment.controller')
 
 const momentRouter = new Router({prefix:'/moment'})
 
 momentRouter.post('/', verifyAuth, create)
+
+momentRouter.get('/', list)
+momentRouter.get('/:momentId', detail)
+
+momentRouter.patch('/:momentId', verifyAuth, verifyPermission, update)
 
 
 module.exports = momentRouter

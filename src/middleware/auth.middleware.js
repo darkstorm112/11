@@ -57,7 +57,12 @@ const verifyAuth = async (ctx, next) => {
   }
 }
 
+const verifyPermission = async (ctx, next) => {
+  next()
+}
+
 module.exports = {
   verifyLogin,
-  verifyAuth
+  verifyAuth,
+  verifyPermission
 }
