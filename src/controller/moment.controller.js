@@ -31,7 +31,22 @@ class MomentController {
   }
 
   async update(ctx, next) {
-    ctx.body = '完成更新'
+    // 获取参数
+    const { momentId } = ctx.params
+    const { content } = ctx.request.body
+
+    // 修改内容
+    const result = await momentService.update(content, momentId)
+    ctx.body = result
+  }
+
+  async remove(ctx, next) {
+    // 获取momentId
+    const { momentId } = ctx.params
+
+    // 删除内容
+    const result = await momentService.remove(momentId)
+    ctx.body = result
   }
 }
 

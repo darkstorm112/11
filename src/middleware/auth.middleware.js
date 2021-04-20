@@ -43,7 +43,6 @@ const verifyAuth = async (ctx, next) => {
     //获取 token
     const authorization = ctx.headers.authorization
     const token = authorization.replace('Bearer ', '')
-
     //验证token
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256']
@@ -60,26 +59,26 @@ const verifyAuth = async (ctx, next) => {
 
 const verifyPermission = async (ctx, next) => {
   console.log('验证权限的middleware~')
-
-  //1、获取参数 { commentId }
-  const [resourceKey] = Object.keys(ctx.params)
-  const tableName = resourceKey.replace('Id','')
-  const resourceId = ctx.params[resourceKey]
-
-  const { id } = ctx.user
-
-
-  // 2、查看是否拥有权限
   try{
+    //1、获取参数 { commentId }
+    const [resourceKey] = Object.keys(ctx.params)
+    const tableName = resourceKey.replace('Id','')
+    const resourceId = ctx.params[resourceKey]
+    const { id } = ctx.user
+
+
+    // 2、查看是否拥有权限
     const isPermission = await authService.checkResource(tableName, resourceId, id)
-    if(isPermission){
-      
-    }
+    if(!isPermission) throw new Error()
+    await next()
+ 
   }catch(err){
     console.log(err)
+    const error = new Error(errorTypes.UNPERMISSION)
+    return ctx.app.emit('error',error,ctx)
   }
 
-  next()
+  
 }
 
 module.exports = {

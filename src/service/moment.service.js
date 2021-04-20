@@ -21,6 +21,18 @@ class MomentService {
     console.log(result)
     return result[0]||'暂无数据'
   }
+
+  async update (content, momentId) {
+    const statement = `UPDATE moment SET content = ? WHERE id = ?;`
+    const [result] = await connection.execute(statement, [content, momentId])
+    return result
+  }
+
+  async remove (momentId) {
+    const statement = `DELETE FROM moment WHERE id = ?;`
+    const [result] = await connection.execute(statement, [momentId])
+    return result 
+  }
 }
 
 module.exports = new MomentService()
