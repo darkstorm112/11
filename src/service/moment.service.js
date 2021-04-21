@@ -9,10 +9,14 @@ class MomentService {
   }
 
   async list(offset, limit) {
-    const statement = `SELECT id momentId, content, user_id userId, createAt,updateAt FROM moment LIMIT ?, ?;`
-    const [result] = await connection.execute(statement,[offset,limit])
-    console.log(result)
-    return result
+    try {
+      const statement = `SELECT id momentId, content, user_id userId, createAt,updateAt FROM moment LIMIT ?, ?;`
+      const [result] = await connection.execute(statement,[offset,limit])
+      console.log(result)
+      return result
+    }catch (err) {
+      console.log(err)
+    }
   }
 
   async detail(momentId) {
