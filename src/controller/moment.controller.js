@@ -56,8 +56,14 @@ class MomentController {
 
     // 添加所有标签
     for (let label of labels){
-      
+      // 判断标签是否和动态有关系
+      const isExist = await momentService.hasLabel(mommentId, label.id)
+      if(!isExist){
+        await momentService.addLabel(momentId, label.id)
+      }
     }
+
+    ctx.body = "给动态添加标签成功~ "
   }
 }
 
