@@ -6,7 +6,7 @@ const path = require('path')
 const {
   AVATAR_PATH,
   PICTURE_PATH
-} = require('../constants/')
+} = require('../constants/file-path')
 
 const avatarUpload = Multer({
   dest: AVATAR_PATH
